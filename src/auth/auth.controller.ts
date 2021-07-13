@@ -1,8 +1,9 @@
-import {Body, Controller, HttpStatus, Post, Request, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, HttpStatus, Post, Request, UseGuards} from '@nestjs/common';
 import {LocalAuthGuard} from "./local-auth.guard";
 import {AuthService} from "./auth.service";
 import {CreateUserDto} from "./auth.dto";
-import {UnauthorizedException, BadRequestException} from '@nestjs/common';
+import {BadRequestException} from '@nestjs/common';
+import {FirebaseAuthGuard} from "./firebase/firebase.guard";
 
 @Controller('auth')
 export class AuthController {
@@ -22,4 +23,5 @@ export class AuthController {
            new BadRequestException(error.message)
         }
     }
+
 }

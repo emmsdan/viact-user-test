@@ -43,12 +43,85 @@ $ npm install
 $ npm run start
 
 # watch mode
-$ npm run start:dev
+$ npm run dev
 
 # production mode
 $ npm run start:prod
 ```
+## API Documentation
+Endpoint: `http://api.viact.emmsdan.com.ng` or your localhost:xxxx
 
+### Login
+POST: `http://api.viact.emmsdan.com.ng/auth/login`
+
+POST:  `/auth/login`
+
+##### Request Body
+```javascript
+{
+    "username": "test@yopmail.com",
+    "password": "just1234"    
+}   
+```
+##### Response
+```javascript
+{
+    "id": "4pSN2OZ2WoPYrP01ahwmuZDtjTo2",
+    "name": "SomeKid Named",
+    "photoURL": null, 
+    "email": "test@yopmail.com", 
+    "emailVerified": false,
+    "accessToken": "xxxx"
+}  
+```
+
+### Register
+POST: `http://api.viact.emmsdan.com.ng/auth/register`
+
+PORT: `/auth/register`
+##### Request Body
+```javascript
+{
+    "email": "test@yopmail.com",
+    "password": "just1234",
+    "name": "SomeKid Named",
+    "phone": "11234567890"   
+}   
+```
+##### Response
+```javascript
+{
+    "id": "4pSN2OZ2WoPYrP01ahwmuZDtjTo2",
+    "photoURL": null, 
+    "email": "test@yopmail.com",
+    "emailVerified": false, 
+    "accessToken": "xxxx"
+    "name": "SomeKid Named",
+    "phone": "11234567890"
+}  
+```
+
+### Profile Info;
+POST: `http://api.viact.emmsdan.com.ng/api/me`
+
+PORT: `/api/me`
+
+##### Request Header
+```javascript
+{
+    "Authorization": "Bearer {accessToken}"
+}   
+```
+##### Response
+```javascript
+{
+    "id": "4pSN2OZ2WoPYrP01ahwmuZDtjTo2",
+    "displayName": "SomeKid Named",
+    "photoURL": null, 
+    "email": "test@yopmail.com", 
+    "emailVerified": false,
+}  
+```
 ## Stay in touch
 
 - Author - [Emmanuel Daniel (EmmsDan)](https://github.com/emmsdan)

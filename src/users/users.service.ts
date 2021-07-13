@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { firebaseAuthApp} from "../auth/firebase/config";
+import {FirebaseService} from "../auth/firebase/firebase.service";
 
 export type User = any;
 
 @Injectable()
 export class UsersService {
   private readonly users: User[];
-
-  constructor() {
+  private readonly database: any
+  private  authInstance: any;
+  constructor(private  readonly firebase: FirebaseService) {
     this.users = [
       {
         userId: 1,
@@ -24,16 +27,28 @@ export class UsersService {
         password: 'guess',
       },
     ];
+    this.database = firebaseAuthApp.database();
   }
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+  async auth() {
+    this.authInstance = await this.firebase.app.auth()
+    return this.authInstance
   }
 
-  async getUserDetail(auth) {
-    const accessToken = await auth.currentUser.getIdToken()
-    const {uid, displayName, photoURL, email, emailVerified} = auth.currentUser
+  async create(user) {
+    await this.database.ref('users/' + user.id ).set(user)
+    return await this.getCurrentUser();
+  }
 
-    return { id: uid, displayName, photoURL, email, emailVerified, accessToken}
+  async getCurrentUser() {
+    const accessToken = await this.authInstance.currentUser.getIdToken()
+    const {uid, displayName, email, emailVerified} = this.authInstance.currentUser
+    const user = await this.getUserDetail(uid)
+    return  {...user, uid, displayName, email, emailVerified, accessToken};
+  }
+
+  async getUserDetail(uid) {
+    const user = await this.database.ref('users/' + uid).once("value");
+    return user.val();
   }
 }
