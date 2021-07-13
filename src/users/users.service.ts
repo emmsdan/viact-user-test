@@ -51,4 +51,9 @@ export class UsersService {
     const user = await this.database.ref('users/' + uid).once("value");
     return user.val();
   }
+
+  async updateUser(data) {
+    const user = await this.database.ref('users/' + data.uid).update(data);
+    return user;
+  }
 }
