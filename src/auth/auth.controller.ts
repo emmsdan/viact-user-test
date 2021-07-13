@@ -16,7 +16,7 @@ export class AuthController {
     }
 
     @Post('register')
-    async register(@Body() user: CreateUserDto) {
+    async register(@Body() user: CreateUserDto) : Promise<{}> {
         try {
             return this.authService.createAccount(user)
         } catch (error) {
